@@ -1,0 +1,10 @@
+includes:
+  - vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+  paths:
+    - src
+  level: 6
+  checkMissingIterableValueType: true
+  # checkGenericClassInNonGenericObjectType is deprecated; using ignore identifier instead
+  tmpDir: build/phpstan

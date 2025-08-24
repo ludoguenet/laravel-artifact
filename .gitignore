@@ -1,0 +1,34 @@
+# Dependencies
+/vendor/
+
+# Composer lockfile (libraries should not commit this)
+composer.lock
+
+# PHPUnit / Pest
+.phpunit.result.cache
+.phpunit.cache
+/.phpunit.cache/
+phpunit.xml
+phpunit.xml.bak
+phpunit.xml.dist.bak
+/coverage/
+
+# Static analysis / build output
+/build/
+
+# Code style cache (Pint / PHP-CS-Fixer)
+.php-cs-fixer.cache
+
+# IDE / OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+
+# Node (if present)
+node_modules/
+

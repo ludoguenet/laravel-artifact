@@ -1,0 +1,8 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "declare_strict_types": true,
+    "array_syntax": {"syntax": "short"},
+    "ordered_imports": {"sort_algorithm": "alpha"}
+  }
+}
