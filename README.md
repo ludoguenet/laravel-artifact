@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="art/logo.png" alt="Laravel Artifact Logo" width="220">
+    <img src="art/logo.png" alt="Laravel Artifact Logo">
 </p>
 
 <p align="center">
