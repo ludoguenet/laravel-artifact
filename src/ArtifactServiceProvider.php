@@ -13,7 +13,6 @@ class ArtifactServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations'),
-            __DIR__.'/../config/artifact.php' => config_path('artifact.php'),
         ], 'laravel-artifact');
 
         // Load routes automatically
@@ -24,6 +23,6 @@ class ArtifactServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/artifact.php', 'artifact');
+        //
     }
 }

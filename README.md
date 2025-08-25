@@ -31,7 +31,7 @@ php artisan vendor:publish --tag="laravel-artifact"
 php artisan migrate
 ```
 
-This will publish the migration file and configuration file to your application.
+This will publish the migration file to your application.
 
 ## Basic Usage
 
@@ -294,15 +294,7 @@ $this->assertInstanceOf(Artifact::class, $artifact);
 $this->assertTrue(Storage::disk('local')->exists($artifact->path));
 ```
 
-## Configuration
 
-Publish the configuration file to customize the package:
-
-```bash
-php artisan vendor:publish --tag="laravel-artifact"
-```
-
-The configuration file `config/artifact.php` is currently minimal but ready for future enhancements.
 
 ## Requirements
 
