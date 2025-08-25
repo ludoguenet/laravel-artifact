@@ -16,7 +16,7 @@ class ArtifactController extends Controller
     /**
      * Stream an artifact file.
      */
-    public function stream(Request $request, string $artifact): StreamedResponse
+    public function stream(Request $request, string|int $artifact): StreamedResponse
     {
         $artifactModel = Artifact::findOrFail($artifact);
 
@@ -36,7 +36,7 @@ class ArtifactController extends Controller
      * Download an artifact file.
      * This route is protected by signed middleware for security.
      */
-    public function download(Request $request, string $artifact): StreamedResponse
+    public function download(Request $request, string|int $artifact): StreamedResponse
     {
         $artifactModel = Artifact::findOrFail($artifact);
 
@@ -54,7 +54,7 @@ class ArtifactController extends Controller
     /**
      * Show artifact metadata (for testing purposes).
      */
-    public function show(Request $request, string $artifact): JsonResponse
+    public function show(Request $request, string|int $artifact): JsonResponse
     {
         $artifactModel = Artifact::findOrFail($artifact);
 
