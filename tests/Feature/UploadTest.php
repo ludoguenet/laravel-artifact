@@ -40,6 +40,13 @@ class ParentModel extends \Illuminate\Database\Eloquent\Model
     }
 }
 
+describe('Macro', function () {
+    it('verifies macro is registered', function () {
+        expect(\Illuminate\Database\Eloquent\Relations\MorphOne::hasMacro('store'))
+            ->toBeTrue('MorphOne store macro should be registered');
+    });
+});
+
 describe('Upload files', function () {
     it('can store a file for singleArtifact relationship', function () {
         $model = ParentModel::create([]);
@@ -53,6 +60,22 @@ describe('Upload files', function () {
             ->and($avatarArtifact->size)->toBe($file->getSize())
             ->and($avatarArtifact->collection)->toBe('avatar')
             ->and(Storage::disk('local')->exists($avatarArtifact->path))->toBeTrue();
+    });
+
+    it('can delete previous file for singleArtifact relationship', function () {
+        $model = ParentModel::create([]);
+
+        // Upload first file
+        $previousFile = \Illuminate\Http\UploadedFile::fake()->image('avatar.jpg');
+        $avatarArtifact = $model->avatar()->store($previousFile);
+
+        $previousPath = $avatarArtifact->path;
+
+        // Upload second file
+        $newFile = \Illuminate\Http\UploadedFile::fake()->image('new-avatar.png');
+        $model->avatar()->store($newFile);
+
+        Storage::disk('local')->assertMissing($previousPath);
     });
 
     it('can store multiple files for singleArtifact relationship', function () {
