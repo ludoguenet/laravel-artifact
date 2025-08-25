@@ -78,6 +78,21 @@ describe('Upload files', function () {
         Storage::disk('local')->assertMissing($previousPath);
     });
 
+    it('can store a file for singleArtifact relationship for a selected disk', function () {
+        $model = ParentModel::create([]);
+
+        $file = \Illuminate\Http\UploadedFile::fake()->image('avatar.jpg');
+
+        $avatarArtifact = $model->avatar()->store($file, 'public');
+
+        expect($avatarArtifact)->toBeInstanceOf(\LaravelJutsu\Artifact\Artifact::class)
+            ->and($avatarArtifact->mime_type)->toBe('image/jpeg')
+            ->and($avatarArtifact->size)->toBe($file->getSize())
+            ->and($avatarArtifact->collection)->toBe('avatar')
+            ->and($avatarArtifact->isPublicDisk())->toBeTrue()
+            ->and(Storage::disk('public')->exists($avatarArtifact->path))->toBeTrue();
+    });
+
     it('can store multiple files for singleArtifact relationship', function () {
         $model = ParentModel::create([]);
 
@@ -98,6 +113,28 @@ describe('Upload files', function () {
             ->and($secondArtifact->file_name)->toBe('avatar2.jpg')
             ->and($secondArtifact->collection)->toBe('avatar')
             ->and(Storage::disk('local')->exists($secondArtifact->path))->toBeTrue();
+    });
+
+    it('can store multiple files for singleArtifact relationship for a selected disk', function () {
+        $model = ParentModel::create([]);
+
+        // Store first file
+        $firstFile = \Illuminate\Http\UploadedFile::fake()->image('avatar1.jpg', 100, 100);
+        $firstArtifact = $model->avatar()->store($firstFile, 'public');
+
+        expect($firstArtifact)->toBeInstanceOf(\LaravelJutsu\Artifact\Artifact::class)
+            ->and($firstArtifact->file_name)->toBe('avatar1.jpg')
+            ->and($firstArtifact->collection)->toBe('avatar')
+            ->and(Storage::disk('public')->exists($firstArtifact->path))->toBeTrue();
+
+        // Store second file with different dimensions to ensure different hash
+        $secondFile = \Illuminate\Http\UploadedFile::fake()->image('avatar2.jpg', 200, 200);
+        $secondArtifact = $model->avatar()->store($secondFile, 'public');
+
+        expect($secondArtifact)->toBeInstanceOf(\LaravelJutsu\Artifact\Artifact::class)
+            ->and($secondArtifact->file_name)->toBe('avatar2.jpg')
+            ->and($secondArtifact->collection)->toBe('avatar')
+            ->and(Storage::disk('public')->exists($secondArtifact->path))->toBeTrue();
     });
 
     it('can store audio files for manyArtifacts relationship with array', function () {

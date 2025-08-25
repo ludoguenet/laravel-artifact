@@ -16,7 +16,7 @@ class RelationMacros
 {
     public static function register(): void
     {
-        Relation::macro('store', function ($files) {
+        Relation::macro('store', function ($files, ?string $disk = null) {
             /** @var Relation<Model, Model, mixed> $this */
             $parent = $this->getParent();
 
@@ -36,7 +36,7 @@ class RelationMacros
             if ($this instanceof MorphOne) {
                 Artifact::deletePrevious($parent, $collection);
 
-                $artifact = Artifact::fromUpload($files, $collection);
+                $artifact = Artifact::fromUpload($files, $collection, $disk);
 
                 if (! method_exists($parent, 'singleArtifact')) {
                     abort(500, get_class($parent).' must define a singleArtifact() relationship to use MorphOne::store()');
@@ -71,7 +71,7 @@ class RelationMacros
                         throw new \InvalidArgumentException('All items must be UploadedFile instances');
                     }
 
-                    $artifact = Artifact::fromUpload($file, $collection);
+                    $artifact = Artifact::fromUpload($file, $collection, $disk);
                     $parent->manyArtifacts($collection)->save($artifact);
                     $artifacts->push($artifact);
                 }

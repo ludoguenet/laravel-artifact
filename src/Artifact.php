@@ -36,17 +36,17 @@ class Artifact extends Model
         return $this->morphTo();
     }
 
-    public static function fromUpload(UploadedFile $file, string $collection): self
+    public static function fromUpload(UploadedFile $file, string $collection, ?string $disk = null): self
     {
         $name = $file->hashName();
-        $path = $file->storeAs($collection, $name);
+        $path = $file->storeAs($collection, $name, ['disk' => $disk ?? config('filesystems.default')]);
 
         return new self([
             'name' => $name,
             'file_name' => $file->getClientOriginalName(),
             'mime_type' => $file->getClientMimeType(),
             'path' => $path,
-            'disk' => config('filesystems.default'),
+            'disk' => $disk ?? config('filesystems.default'),
             'file_hash' => hash_file('sha256', $file->getRealPath()),
             'collection' => $collection,
             'size' => $file->getSize(),
