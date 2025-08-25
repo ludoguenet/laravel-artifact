@@ -53,6 +53,22 @@ class Artifact extends Model
         ]);
     }
 
+    public static function deletePrevious(Model $model, string $collection): void
+    {
+        if (! method_exists($model, 'artifacts')) {
+            abort(500, "get_class($model) must define an artifacts() relationship to use Artifact::deletePrevious()");
+        }
+
+        $existingArtifacts = $model->artifacts()->where('collection', $collection)->get();
+
+        foreach ($existingArtifacts as $artifact) {
+            // Delete the file from storage
+            Storage::disk($artifact->disk)->delete($artifact->path);
+            // Delete the database record
+            $artifact->delete();
+        }
+    }
+
     public function url(): string
     {
         return Storage::disk($this->disk)->path($this->path);

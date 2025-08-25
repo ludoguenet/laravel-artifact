@@ -30,6 +30,8 @@ class RelationMacros
             // Note: For MorphOne relationships, ideally we should delete existing artifacts
             // but for now we'll skip that complexity
 
+            Artifact::deletePrevious($parent, $collection);
+
             $artifact = Artifact::fromUpload($file, $collection);
 
             if (! method_exists($parent, 'singleArtifact')) {
