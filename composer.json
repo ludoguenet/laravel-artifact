@@ -57,6 +57,5 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
-    },
-    "version": "dev-main"
+    }
 }
