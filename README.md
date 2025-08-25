@@ -4,9 +4,9 @@
     <img src="art/logo.png" alt="Laravel Artifact Logo" width="300">
 </p>
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/laraveljutsu/artifact.svg?style=flat-square)](https://packagist.org/packages/laraveljutsu/artifact)
-[![Tests](https://img.shields.io/github/actions/workflow/status/laraveljutsu/artifact/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/laraveljutsu/artifact/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/laraveljutsu/artifact.svg?style=flat-square)](https://packagist.org/packages/laraveljutsu/artifact)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/laraveljutsu/laravel-artifact.svg?style=flat-square)](https://packagist.org/packages/laraveljutsu/laravel-artifact)
+[![Tests](https://img.shields.io/github/actions/workflow/status/laraveljutsu/laravel-artifact/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/laraveljutsu/laravel-artifact/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/laraveljutsu/laravel-artifact.svg?style=flat-square)](https://packagist.org/packages/laraveljutsu/laravel-artifact)
 
 **Artifact** is a lightweight Laravel package that handles basic media management with no fuss. It provides a simple and clean way to manage file uploads, storage, and retrieval with support for both public and private files, signed URLs, and multiple storage disks.
 
@@ -25,7 +25,7 @@
 You can install the package via Composer:
 
 ```bash
-composer require laraveljutsu/artifact
+composer require laraveljutsu/laravel-artifact
 ```
 
 Publish and run the migration:
