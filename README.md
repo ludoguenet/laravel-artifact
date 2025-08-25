@@ -1,1 +1,1 @@
-# 🏺 Laravel Artifact
+# Laravel Artifact

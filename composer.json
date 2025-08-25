@@ -47,8 +47,8 @@
         "test": "vendor/bin/pest --parallel",
         "qa": [
             "@composer format",
-            "@composer test",
-            "@composer analyse"
+            "@composer analyse",
+            "@composer test"
         ]
     },
     "minimum-stability": "dev",
