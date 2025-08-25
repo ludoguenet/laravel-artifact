@@ -1,5 +1,5 @@
 {
-    "name": "laraveljutsu/artifact",
+    "name": "laraveljutsu/laravel-artifact",
     "description": "Artifact — Lightweight package that just handles basic media management with no fuss.",
     "type": "library",
     "keywords": ["laravel", "artifact", "media", "management"],
