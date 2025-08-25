@@ -15,10 +15,10 @@ class ArtifactServiceProvider extends ServiceProvider
             __DIR__.'/../database/migrations/' => database_path('migrations'),
         ], 'laravel-artifact');
 
+        RelationMacros::register();
+
         // Load routes automatically
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-
-        RelationMacros::register();
     }
 
     public function register(): void

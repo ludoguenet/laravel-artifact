@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\URL;
  */
 class Artifact extends Model
 {
+    protected $table = 'artifacts';
+
     protected $fillable = [
         'name', 'file_name', 'mime_type', 'path', 'disk', 'file_hash', 'collection', 'size',
     ];
@@ -78,7 +80,7 @@ class Artifact extends Model
      */
     public function streamUrl(): string
     {
-        return route('artifact.stream', ['artifact' => $this->id]);
+        return route('artifact.stream', ['artifact' => $this->getKey()]);
     }
 
     /**
@@ -95,7 +97,7 @@ class Artifact extends Model
         }
 
         // Otherwise, generate a signed route URL
-        return URL::signedRoute('artifact.download', ['artifact' => $this->id]);
+        return URL::signedRoute('artifact.download', ['artifact' => $this->getKey()]);
     }
 
     /**
@@ -114,7 +116,7 @@ class Artifact extends Model
         return URL::temporarySignedRoute(
             'artifact.download',
             now()->addMinutes($expirationMinutes),
-            ['artifact' => $this->id]
+            ['artifact' => $this->getKey()]
         );
     }
 

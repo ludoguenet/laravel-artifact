@@ -16,17 +16,19 @@ class ArtifactController extends Controller
     /**
      * Stream an artifact file.
      */
-    public function stream(Request $request, Artifact $artifact): StreamedResponse
+    public function stream(Request $request, string $artifact): StreamedResponse
     {
-        $disk = Storage::disk($artifact->disk);
+        $artifactModel = Artifact::findOrFail($artifact);
 
-        if (! $disk->exists($artifact->path)) {
+        $disk = Storage::disk($artifactModel->disk);
+
+        if (! $disk->exists($artifactModel->path)) {
             abort(404, 'File not found');
         }
 
-        return $disk->response($artifact->path, $artifact->file_name, [
-            'Content-Type' => $artifact->mime_type,
-            'Content-Disposition' => 'inline; filename="'.$artifact->file_name.'"',
+        return $disk->response($artifactModel->path, $artifactModel->file_name, [
+            'Content-Type' => $artifactModel->mime_type,
+            'Content-Disposition' => 'inline; filename="'.$artifactModel->file_name.'"',
         ]);
     }
 
@@ -34,38 +36,42 @@ class ArtifactController extends Controller
      * Download an artifact file.
      * This route is protected by signed middleware for security.
      */
-    public function download(Request $request, Artifact $artifact): StreamedResponse
+    public function download(Request $request, string $artifact): StreamedResponse
     {
-        $disk = Storage::disk($artifact->disk);
+        $artifactModel = Artifact::findOrFail($artifact);
 
-        if (! $disk->exists($artifact->path)) {
+        $disk = Storage::disk($artifactModel->disk);
+
+        if (! $disk->exists($artifactModel->path)) {
             abort(404, 'File not found');
         }
 
-        return $disk->download($artifact->path, $artifact->file_name, [
-            'Content-Type' => $artifact->mime_type,
+        return $disk->download($artifactModel->path, $artifactModel->file_name, [
+            'Content-Type' => $artifactModel->mime_type,
         ]);
     }
 
     /**
      * Show artifact metadata (for testing purposes).
      */
-    public function show(Request $request, Artifact $artifact): JsonResponse
+    public function show(Request $request, string $artifact): JsonResponse
     {
+        $artifactModel = Artifact::findOrFail($artifact);
+
         return response()->json([
-            'id' => $artifact->id,
-            'name' => $artifact->name,
-            'file_name' => $artifact->file_name,
-            'mime_type' => $artifact->mime_type,
-            'size' => $artifact->size,
-            'disk' => $artifact->disk,
-            'collection' => $artifact->collection,
-            'is_public' => $artifact->isPublicDisk(),
-            'is_private' => $artifact->isPrivateDisk(),
-            'raw_url' => $artifact->rawUrl(),
-            'stream_url' => $artifact->streamUrl(),
-            'signed_url' => $artifact->signedUrl(),
-            'temporary_signed_url' => $artifact->temporarySignedUrl(),
+            'id' => $artifactModel->id,
+            'name' => $artifactModel->name,
+            'file_name' => $artifactModel->file_name,
+            'mime_type' => $artifactModel->mime_type,
+            'size' => $artifactModel->size,
+            'disk' => $artifactModel->disk,
+            'collection' => $artifactModel->collection,
+            'is_public' => $artifactModel->isPublicDisk(),
+            'is_private' => $artifactModel->isPrivateDisk(),
+            'raw_url' => $artifactModel->rawUrl(),
+            'stream_url' => $artifactModel->streamUrl(),
+            'signed_url' => $artifactModel->signedUrl(),
+            'temporary_signed_url' => $artifactModel->temporarySignedUrl(),
         ]);
     }
 }
