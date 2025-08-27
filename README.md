@@ -119,8 +119,8 @@ foreach ($user->documents as $document) {
 ## 📋 Requirements
 
 - PHP 8.2+
-- Laravel 10 / 11 / 12
+- Laravel 10+
 
 ## 📄 License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](https://opensource.org/license/mit) for more information.
