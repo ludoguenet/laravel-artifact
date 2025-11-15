@@ -13,7 +13,13 @@ class ArtifactServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations'),
+            __DIR__.'/../config/artifact.php' => config_path('artifact.php'),
         ], 'laravel-artifact');
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/artifact.php',
+            'artifact'
+        );
 
         RelationMacros::register();
 

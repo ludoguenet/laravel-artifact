@@ -15,20 +15,23 @@ use LaravelJutsu\Artifact\Http\Controllers\ArtifactController;
 |
 */
 
-Route::prefix('artifacts')->name('artifact.')->group(function () {
-    // Stream route - for inline viewing (not signed, but could be rate limited)
-    Route::get('{artifact}/stream', [ArtifactController::class, 'stream'])
-        ->name('stream')
-        ->where('artifact', '[0-9]+');
+Route::prefix(config('artifact.routes.prefix', 'artifacts'))
+    ->name('artifact.')
+    ->middleware(config('artifact.routes.middleware', ['web']))
+    ->group(function () {
+        // Stream route - for inline viewing (not signed, but could be rate limited)
+        Route::get('{artifact}/stream', [ArtifactController::class, 'stream'])
+            ->name('stream')
+            ->where('artifact', '[0-9]+');
 
-    // Download route - requires signed URL for security
-    Route::get('{artifact}/download', [ArtifactController::class, 'download'])
-        ->name('download')
-        ->middleware('signed')
-        ->where('artifact', '[0-9]+');
+        // Download route - requires signed URL for security
+        Route::get('{artifact}/download', [ArtifactController::class, 'download'])
+            ->name('download')
+            ->middleware('signed')
+            ->where('artifact', '[0-9]+');
 
-    // Show route - for retrieving artifact metadata (useful for APIs)
-    Route::get('{artifact}', [ArtifactController::class, 'show'])
-        ->name('show')
-        ->where('artifact', '[0-9]+');
-});
+        // Show route - for retrieving artifact metadata (useful for APIs)
+        Route::get('{artifact}', [ArtifactController::class, 'show'])
+            ->name('show')
+            ->where('artifact', '[0-9]+');
+    });

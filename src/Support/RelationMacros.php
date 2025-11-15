@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use LaravelJutsu\Artifact\Artifact;
 
 class RelationMacros
 {
@@ -32,11 +31,13 @@ class RelationMacros
                 }
             }
 
+            $artifactClass = config('artifact.model');
+
             // Handle MorphOne
             if ($this instanceof MorphOne) {
-                Artifact::deletePrevious($parent, $collection);
+                $artifactClass::deletePrevious($parent, $collection);
 
-                $artifact = Artifact::fromUpload($files, $collection, $disk);
+                $artifact = $artifactClass::fromUpload($files, $collection, $disk);
 
                 if (! method_exists($parent, 'singleArtifact')) {
                     abort(500, get_class($parent).' must define a singleArtifact() relationship to use MorphOne::store()');
@@ -71,7 +72,7 @@ class RelationMacros
                         throw new \InvalidArgumentException('All items must be UploadedFile instances');
                     }
 
-                    $artifact = Artifact::fromUpload($file, $collection, $disk);
+                    $artifact = $artifactClass::fromUpload($file, $collection, $disk);
                     $parent->manyArtifacts($collection)->save($artifact);
                     $artifacts->push($artifact);
                 }

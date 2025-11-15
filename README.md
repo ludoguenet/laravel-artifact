@@ -42,12 +42,38 @@ Publish the configuration and run migrations:
 
 ```bash
 php artisan vendor:publish --tag="laravel-artifact"
-php artisan migrate
 ```
 
 ## 🚀 Usage
 
-### 1. Add the trait to your model
+### 1. Configure the package
+
+ Configure the package in the `config/artifact.php` file.
+```php
+return [
+    'model' => LaravelJutsu\Artifact\Artifact::class,
+    'table_name' => 'artifacts',
+    'routes' => [
+        'prefix' => env('ARTIFACT_ROUTE_PREFIX', 'artifacts'),
+        'middleware' => ['web'],
+    ],
+    'signed_url' => [
+        'expiration_minutes' => env('ARTIFACT_SIGNED_URL_EXPIRATION', 60),
+    ],
+];
+
+// .env
+ARTIFACT_ROUTE_PREFIX=artifacts
+ARTIFACT_SIGNED_URL_EXPIRATION=60
+```
+
+After configuring the package, run the migrations:
+```bash
+php artisan optimize
+php artisan migrate
+```
+
+### 2. Add the trait to your model
 
 ```php
 <?php
@@ -73,7 +99,7 @@ class User extends Model
 }
 ```
 
-### 2. Store files
+### 3. Store files
 
 ```php
 $user = User::find(1);
@@ -90,7 +116,7 @@ $artifact = $user->avatar()->store($file); // Uses default disk
 $artifacts = $user->documents()->store($files, 'public');
 ```
 
-### 3. Access files and metadata
+### 4. Access files and metadata
 
 ```php
 $avatar = $user->avatar;
