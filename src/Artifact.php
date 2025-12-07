@@ -22,11 +22,14 @@ use Illuminate\Support\Facades\URL;
  */
 class Artifact extends Model
 {
-    protected $table = 'artifacts';
-
     protected $fillable = [
         'name', 'file_name', 'mime_type', 'path', 'disk', 'file_hash', 'collection', 'size',
     ];
+
+    public function getTable(): string
+    {
+        return config('artifact.table_name', parent::getTable());
+    }
 
     /**
      * @return MorphTo<Model, $this>
@@ -39,14 +42,15 @@ class Artifact extends Model
     public static function fromUpload(UploadedFile $file, string $collection, ?string $disk = null): self
     {
         $name = $file->hashName();
-        $path = $file->storeAs($collection, $name, ['disk' => $disk ?? config('filesystems.default')]);
+        $disk = $disk ?? config('filesystems.default');
+        $path = $file->storeAs($collection, $name, ['disk' => $disk]);
 
         return new self([
             'name' => $name,
             'file_name' => $file->getClientOriginalName(),
             'mime_type' => $file->getClientMimeType(),
             'path' => $path,
-            'disk' => $disk ?? config('filesystems.default'),
+            'disk' => $disk,
             'file_hash' => hash_file('sha256', $file->getRealPath()),
             'collection' => $collection,
             'size' => $file->getSize(),
@@ -119,8 +123,9 @@ class Artifact extends Model
     /**
      * Get a temporary signed URL for the file with expiration.
      */
-    public function temporarySignedUrl(int $expirationMinutes = 60): string
+    public function temporarySignedUrl(?int $expirationMinutes = null): string
     {
+        $expirationMinutes = $expirationMinutes ?? config('artifact.signed_url.expiration_minutes', 60);
         $disk = Storage::disk($this->disk);
 
         // If the disk supports temporary signed URLs (like S3), use that

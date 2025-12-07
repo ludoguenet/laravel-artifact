@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('artifacts', function (Blueprint $table) {
+        Schema::create(config('artifact.table_name', 'artifacts'), function (Blueprint $table) {
             $table->id();
             $table->morphs('artifactable');
             $table->string('name');
@@ -27,6 +27,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('artifacts');
+        Schema::dropIfExists(config('artifact.table_name', 'artifacts'));
     }
 };

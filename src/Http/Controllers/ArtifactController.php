@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
-use LaravelJutsu\Artifact\Artifact;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArtifactController extends Controller
@@ -18,7 +17,8 @@ class ArtifactController extends Controller
      */
     public function stream(Request $request, string|int $artifact): StreamedResponse
     {
-        $artifactModel = Artifact::findOrFail($artifact);
+        $artifactClass = config('artifact.model');
+        $artifactModel = $artifactClass::findOrFail($artifact);
 
         $disk = Storage::disk($artifactModel->disk);
 
@@ -38,7 +38,8 @@ class ArtifactController extends Controller
      */
     public function download(Request $request, string|int $artifact): StreamedResponse
     {
-        $artifactModel = Artifact::findOrFail($artifact);
+        $artifactClass = config('artifact.model');
+        $artifactModel = $artifactClass::findOrFail($artifact);
 
         $disk = Storage::disk($artifactModel->disk);
 
@@ -56,7 +57,8 @@ class ArtifactController extends Controller
      */
     public function show(Request $request, string|int $artifact): JsonResponse
     {
-        $artifactModel = Artifact::findOrFail($artifact);
+        $artifactClass = config('artifact.model');
+        $artifactModel = $artifactClass::findOrFail($artifact);
 
         return response()->json([
             'id' => $artifactModel->id,
