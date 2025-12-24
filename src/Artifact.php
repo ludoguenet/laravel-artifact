@@ -45,7 +45,7 @@ class Artifact extends Model
         $disk = $disk ?? config('filesystems.default');
         $path = $file->storeAs($collection, $name, ['disk' => $disk]);
 
-        return new self([
+        return new static([
             'name' => $name,
             'file_name' => $file->getClientOriginalName(),
             'mime_type' => $file->getClientMimeType(),
