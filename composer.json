@@ -2,7 +2,12 @@
     "name": "laraveljutsu/laravel-artifact",
     "description": "Artifact — Lightweight package that just handles basic media management with no fuss.",
     "type": "library",
-    "keywords": ["laravel", "artifact", "media", "management"],
+    "keywords": [
+        "laravel",
+        "artifact",
+        "media",
+        "management"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -12,16 +17,16 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^10.0|^11.0|^12.0",
-        "illuminate/database": "^10.0|^11.0|^12.0",
-        "illuminate/console": "^10.0|^11.0|^12.0"
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/console": "^10.0|^11.0|^12.0|^13.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^9.0|^10.0",
-        "pestphp/pest": "^2.34",
-        "pestphp/pest-plugin-laravel": "^2.4",
+        "orchestra/testbench": "^9.0|^10.0|^11.0",
+        "pestphp/pest": "^2.34|^4.4",
+        "pestphp/pest-plugin-laravel": "^2.4|^4.1",
         "laravel/pint": "^1.16",
-        "phpstan/phpstan": "^1.11",
+        "phpstan/phpstan": "^1.11|^2.1",
         "nunomaduro/larastan": "^2.9"
     },
     "autoload": {
